@@ -1,0 +1,21 @@
+#!/bin/bash
+pintos="$(dirname $0)"
+pintos="$(dirname $pintos)"
+
+dockerid=$pintos/.container-id
+
+if [ ! -f "$dockerid" ]; then
+    docker create -t -i -v $PINTOS_HOME:/pintos \
+    -v $PINTOS_HOME/container:/host --cidfile $dockerid gbenm/pintos:latest
+fi
+
+dockerid=`cat $dockerid`
+
+if [[ $1 == "stop" ]]; then
+    docker stop $dockerid
+    exit 0
+fi
+
+docker start $dockerid > /dev/null
+docker exec -u pintos -it $dockerid bash
+

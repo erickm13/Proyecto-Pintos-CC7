@@ -1,0 +1,92 @@
+name: 'Calificación de las fases del proyecto'
+
+on: [ "push", "pull_request" ]
+
+jobs:
+  threads:
+    name: 'Fase: Threads'
+    runs-on: 'ubuntu-latest'
+    env:
+      phase: 'threads'
+    steps:
+      - name: 'Clonando repositorio'
+        uses: 'actions/checkout@v2'
+      - name: Pintos Checker
+        id: phase
+        uses: gbenm/pintos-checker@v1
+        with:
+            phase: "${{ env.phase }}"
+            root: "."
+            utils_path: "utils"
+            make: "make clean && make && make grade"
+      - name: 'Show results'
+        uses: './.github/pintos-results'
+        with:
+          results: "${{ steps.phase.outputs.results }}"
+          phase: "${{ env.phase }}"
+
+  userprog:
+    name: 'Fase: User Programs'
+    runs-on: 'ubuntu-latest'
+    env:
+      phase: 'userprog'
+    steps:
+      - name: 'Clonando repositorio'
+        uses: 'actions/checkout@v2'
+      - name: Pintos Checker
+        id: phase
+        uses: gbenm/pintos-checker@v1
+        with:
+            phase: '${{ env.phase }}'
+            root: "."
+            utils_path: "utils"
+            make: "make clean && make && make grade"
+      - name: 'Show results'
+        uses: './.github/pintos-results'
+        with:
+          results: "${{ steps.phase.outputs.results }}"
+          phase: "${{ env.phase }}"
+
+  vm:
+    name: 'Fase: Virtual Memory'
+    runs-on: 'ubuntu-latest'
+    env:
+      phase: 'vm'
+    steps:
+      - name: 'Clonando repositorio'
+        uses: 'actions/checkout@v2'
+      - name: Pintos Checker
+        id: phase
+        uses: gbenm/pintos-checker@v1
+        with:
+            phase: '${{ env.phase }}'
+            root: "."
+            utils_path: "utils"
+            make: "make clean && make && make grade"
+      - name: 'Show results'
+        uses: './.github/pintos-results'
+        with:
+          results: "${{ steps.phase.outputs.results }}"
+          phase: "${{ env.phase }}"
+
+  filesys:
+    name: 'Fase: File System'
+    runs-on: 'ubuntu-latest'
+    env:
+      phase: 'filesys'
+    steps:
+      - name: 'Clonando repositorio'
+        uses: 'actions/checkout@v2'
+      - name: Pintos Checker
+        id: phase
+        uses: gbenm/pintos-checker@v1
+        with:
+            phase: '${{ env.phase }}'
+            root: "."
+            utils_path: "utils"
+            make: "make clean && make && make grade"
+      - name: 'Show results'
+        uses: './.github/pintos-results'
+        with:
+          results: "${{ steps.phase.outputs.results }}"
+          phase: "${{ env.phase }}"
