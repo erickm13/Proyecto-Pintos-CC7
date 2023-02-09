@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  pintos:
+    image: "gbenm/pintos"
+    volumes:
+      - ..:/pintos
+      - ../container:/host
+    command: tail -F anything

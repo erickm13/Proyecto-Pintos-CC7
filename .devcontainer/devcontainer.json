@@ -1,0 +1,8 @@
+{
+	"name": "PintOS",
+	"dockerComposeFile": "./docker-compose.yml",
+	"service": "pintos",
+	"workspaceFolder": "/pintos",
+	"shutdownAction": "stopCompose",
+	"remoteUser": "pintos"
+}
