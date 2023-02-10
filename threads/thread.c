@@ -20,8 +20,9 @@
    of thread.h for details. */
 #define THREAD_MAGIC 0xcd6abf4b
 
-
+/* List of process in THREAD_BLOCK state, because are waiting the time to wake*/
 static struct list wait_to_sleep;
+
 /* List of processes in THREAD_READY state, that is, processes
    that are ready to run but not actually running. */
 static struct list ready_list;
@@ -76,16 +77,20 @@ static tid_t allocate_tid (void);
 /* Ingresa el thread a la lista de espera*/
 void
 insert_in_list_wait(int64_t ticks){
+
+  //Deshabilitamos interrupciones
   enum intr_level old_level;
   old_level = intr_disable ();
 
+  /*Definir su tiempo de expiracion */
   struct thread *thread_actual = thread_current();
-  thread_actual->time_for_sleep = timer_ticks() + ticks;
+  thread_actual->time_for_sleep = timer_ticks() + ticks; /*'time_for_sleep' es el atributo de la estructura thread */
 
+  /*Remover el thread actual de "ready_list" e insertarlo en "lista_espera"*/
   list_push_back(&wait_to_sleep, &thread_actual->elem);
+  /*Cambiar su estatus a THREAD_BLOCKED*/
   thread_block();
   intr_set_level (old_level);
-
 }
 
 /* Remueve el thread de la lista de espera*/
@@ -93,10 +98,15 @@ insert_in_list_wait(int64_t ticks){
 void
 remove_thread_sleep(int64_t ticks){
 
+  /*Cuando ocurra un timer_interrupt, si el tiempo del thread ha expirado
+	Se mueve de regreso a ready_list, con la funcion thread_unblock*/
+
   struct list_elem *iter = list_begin(&wait_to_sleep);
   while(iter != list_end(&wait_to_sleep)){
     struct thread *thread_list_wait = list_entry(iter, struct thread, elem);
 
+    /*Si el tiempo global es mayor al tiempo que el thread permanecía dormido
+		  entonces su tiempo de dormir ha expirado*/
     if(ticks >= thread_list_wait->time_for_sleep){
       iter = list_remove(iter);
       thread_unblock(thread_list_wait);

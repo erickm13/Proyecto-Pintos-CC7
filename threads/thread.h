@@ -92,7 +92,11 @@ struct thread
 
     /* Shared between thread.c and synch.c. */
     struct list_elem elem;              /* List element. */
-    uint64_t time_for_sleep;
+
+
+    uint64_t time_for_sleep; /*Time that the thread are sleep*/
+
+
 #ifdef USERPROG
     /* Owned by userprog/process.c. */
     uint32_t *pagedir;                  /* Page directory. */
@@ -138,8 +142,17 @@ void thread_set_nice (int);
 int thread_get_recent_cpu (void);
 int thread_get_load_avg (void);
 
+
+
 void timer_sleep(int64_t);
 static void timer_interrupt(struct intr_frame *args UNUSED);
+
+
+/*-------------------------------------Nuestras funciones--------------------------------------------*/
+void insert_in_list_wait(int64_t ticks);
+void remove_thread_sleep(int64_t ticks);
+
+/*-------------------------------------Fin Nuestras funciones----------------------------------------*/
 
 
 #endif /* threads/thread.h */
