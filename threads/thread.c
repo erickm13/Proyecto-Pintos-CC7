@@ -74,6 +74,9 @@ static void schedule (void);
 void thread_schedule_tail (struct thread *prev);
 static tid_t allocate_tid (void);
 
+
+//--------------------------------------------FUNCIONES CREADAS-----------------------------------------------------------
+
 /* Ingresa el thread a la lista de espera*/
 void
 insert_in_list_wait(int64_t ticks){
@@ -114,8 +117,18 @@ remove_thread_sleep(int64_t ticks){
       iter = list_next(iter);
     }
   }
-
 }
+
+list_less_func compare_priority;
+
+bool compare_priority(const struct list_elem *a,
+                             const struct list_elem *b,
+                             void *aux){
+  return list_entry(a, struct thread, elem)->priority < list_entry(b, struct thread, elem);
+}
+
+//--------------------------------------------FIN FUNCIONES CREADAS-----------------------------------------------------------
+
 
 /* Initializes the threading system by transforming the code
    that's currently running into a thread.  This can't work in
@@ -285,7 +298,9 @@ thread_unblock (struct thread *t)
 
   old_level = intr_disable ();
   ASSERT (t->status == THREAD_BLOCKED);
-  list_push_back (&ready_list, &t->elem);
+  //Insertar el nuevo thread de forma ordenada
+  //list_push_back (&ready_list, &t->elem);
+  list_insert_ordered(&ready_list, &t->elem, compare_priority, NULL);
   t->status = THREAD_READY;
   intr_set_level (old_level);
 }
