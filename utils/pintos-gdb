@@ -1,7 +1,14 @@
 #! /bin/sh
 
+# The comment below is used to know if the extension modified this file
+# gbenm@pintos
+
 # Path to GDB macros file.  Customize for your site.
-GDBMACROS=/usr/class/cs140/pintos/pintos/src/misc/gdb-macros
+GDBMACROS_DEFAULT=/usr/class/cs140/pintos/pintos/src/misc/gdb-macros
+
+# PintOS VSCode: Don't change this value
+GDBMACROS=${GDBMACROS:-$GDBMACROS_DEFAULT}
+# PintOS VSCode: Don't change this value
 
 # Choose correct GDB.
 if command -v i386-elf-gdb >/dev/null 2>&1; then
