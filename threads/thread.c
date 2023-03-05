@@ -121,10 +121,8 @@ remove_thread_sleep(int64_t ticks){
 
 list_less_func compare_priority;
 
-bool compare_priority(const struct list_elem *a,
-                             const struct list_elem *b,
-                             void *aux){
-  return list_entry(a, struct thread, elem)->priority < list_entry(b, struct thread, elem);
+bool compare_priority(const struct list_elem *a, const struct list_elem *b, void *aux){
+  return list_entry(a,struct thread,elem)->priority > list_entry(b,struct thread,elem)->priority;
 }
 
 //--------------------------------------------FIN FUNCIONES CREADAS-----------------------------------------------------------
@@ -300,7 +298,10 @@ thread_unblock (struct thread *t)
   ASSERT (t->status == THREAD_BLOCKED);
   //Insertar el nuevo thread de forma ordenada
   //list_push_back (&ready_list, &t->elem);
-  list_insert_ordered(&ready_list, &t->elem, compare_priority, NULL);
+
+  list_insert_ordered (&ready_list, &t->elem, compare_priority, NULL);
+
+
   t->status = THREAD_READY;
   intr_set_level (old_level);
 }

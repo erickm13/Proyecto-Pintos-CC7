@@ -95,8 +95,8 @@ timer_sleep (int64_t ticks)
   /* while (timer_elapsed (start) < ticks)
     thread_yield ();
   */
-
- insert_in_list_wait(ticks);
+ if(ticks > 0)
+  insert_in_list_wait(ticks);
 }
 
 
