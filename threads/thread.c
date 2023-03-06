@@ -77,6 +77,12 @@ static tid_t allocate_tid (void);
 
 //--------------------------------------------FUNCIONES CREADAS-----------------------------------------------------------
 
+list_less_func compare_priority;
+
+bool compare_priority(const struct list_elem *a, const struct list_elem *b, void *aux){
+  return list_entry(a,struct thread,elem)->priority > list_entry(b,struct thread,elem)->priority;
+}
+
 /* Ingresa el thread a la lista de espera*/
 void
 insert_in_list_wait(int64_t ticks){
@@ -117,12 +123,6 @@ remove_thread_sleep(int64_t ticks){
       iter = list_next(iter);
     }
   }
-}
-
-list_less_func compare_priority;
-
-bool compare_priority(const struct list_elem *a, const struct list_elem *b, void *aux){
-  return list_entry(a,struct thread,elem)->priority > list_entry(b,struct thread,elem)->priority;
 }
 
 //--------------------------------------------FIN FUNCIONES CREADAS-----------------------------------------------------------
@@ -260,6 +260,10 @@ thread_create (const char *name, int priority,
   /* Add to run queue. */
   thread_unblock (t);
 
+
+  if(&t->priority > thread_current()->priority)
+    thread_yield();
+
   return tid;
 }
 
@@ -372,7 +376,7 @@ thread_yield (void)
 
   old_level = intr_disable ();
   if (cur != idle_thread)
-    list_push_back (&ready_list, &cur->elem);
+    list_insert_ordered (&ready_list, &cur->elem, compare_priority, NULL);
   cur->status = THREAD_READY;
   schedule ();
   intr_set_level (old_level);
@@ -400,6 +404,11 @@ void
 thread_set_priority (int new_priority)
 {
   thread_current ()->priority = new_priority;
+  if( thread_current()->priority <
+    list_entry (list_front(&ready_list),struct thread, elem)->priority){
+      thread_yield();
+    }
+  list_sort (&ready_list, compare_priority, NULL);
 }
 
 /* Returns the current thread's priority. */
