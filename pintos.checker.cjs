@@ -9,7 +9,7 @@
   * @returns {boolean} retorna true si el test
   * debe pasar*/
 function threads(grade, total) {
-  return grade >= 20
+  return grade >= 100
 }
 
 /** Condición que se debe cumplir para que
@@ -20,7 +20,7 @@ function threads(grade, total) {
   * @returns {boolean} retorna true si el test
   * debe pasar*/
 function userprog(grade, total) {
-  return grade >= 0
+  return grade >= 20
 }
 
 /** Condición que se debe cumplir para que
