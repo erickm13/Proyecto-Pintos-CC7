@@ -1,6 +1,10 @@
 name: 'Calificación de las fases del proyecto'
 
-on: [ "push", "pull_request" ]
+on:
+  push:
+  branches: [ "main", "master"]
+  pull_request:
+    branches: ["main", "master"]
 
 jobs:
   threads:
@@ -11,9 +15,9 @@ jobs:
     steps:
       - name: 'Clonando repositorio'
         uses: 'actions/checkout@v2'
-      - name: Pintos Checker
+      - name: PintOS Checker
         id: phase
-        uses: gbenm/pintos-checker@v1
+        uses: gbenm/pintos-checker@v1.0.5
         with:
             phase: "${{ env.phase }}"
             root: "."
