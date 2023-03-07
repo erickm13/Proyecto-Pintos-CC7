@@ -1,10 +1,7 @@
 name: 'Calificación de las fases del proyecto'
 
 on:
-  push: 
-    branches: [ "main", "master"]
-  pull_request:
-    branches: ["main", "master"]
+  ["push", "pull_request"]
 
 jobs:
   threads:
@@ -20,7 +17,7 @@ jobs:
         uses: gbenm/pintos-checker@v1.0.5
         with:
             phase: "${{ env.phase }}"
-            root: "."
+            root: "src"
             utils_path: "utils"
             make: "make clean && make && make grade"
       - name: 'Show results'
@@ -42,7 +39,7 @@ jobs:
         uses: gbenm/pintos-checker@v1
         with:
             phase: '${{ env.phase }}'
-            root: "."
+            root: "src"
             utils_path: "utils"
             make: "make clean && make && make grade"
       - name: 'Show results'
@@ -64,9 +61,9 @@ jobs:
         uses: gbenm/pintos-checker@v1
         with:
             phase: '${{ env.phase }}'
-            root: "."
+            root: "src"
             utils_path: "utils"
-            make: "make clean && make && make grade"
+            make: "mycustom .."
       - name: 'Show results'
         uses: './.github/pintos-results'
         with:
@@ -86,7 +83,7 @@ jobs:
         uses: gbenm/pintos-checker@v1
         with:
             phase: '${{ env.phase }}'
-            root: "."
+            root: "src"
             utils_path: "utils"
             make: "make clean && make && make grade"
       - name: 'Show results'
