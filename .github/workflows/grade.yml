@@ -20,7 +20,7 @@ jobs:
         uses: gbenm/pintos-checker@v1.0.5
         with:
             phase: "${{ env.phase }}"
-            root: "src"
+            root: "."
             utils_path: "utils"
             make: "make clean && make && make grade"
       - name: 'Show results'
@@ -42,7 +42,7 @@ jobs:
         uses: gbenm/pintos-checker@v1
         with:
             phase: '${{ env.phase }}'
-            root: "src"
+            root: "."
             utils_path: "utils"
             make: "make clean && make && make grade"
       - name: 'Show results'
@@ -86,7 +86,7 @@ jobs:
         uses: gbenm/pintos-checker@v1
         with:
             phase: '${{ env.phase }}'
-            root: "src"
+            root: "."
             utils_path: "utils"
             make: "make clean && make && make grade"
       - name: 'Show results'
