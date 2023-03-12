@@ -1,10 +1,10 @@
 name: 'Calificación de las fases del proyecto'
 
 on:
-  push:
-    branches: [ "main", "master", "develop" ]
+  push: 
+    branches: [ "main", "master", "develop"]
   pull_request:
-    branches: [ "main", "master", "develop" ]
+    branches: ["main", "master", "develop"]
 
 jobs:
   threads:
@@ -64,9 +64,9 @@ jobs:
         uses: gbenm/pintos-checker@v1
         with:
             phase: '${{ env.phase }}'
-            root: "src"
+            root: "."
             utils_path: "utils"
-            make: "mycustom .."
+            make: "make clean && make && make grade"
       - name: 'Show results'
         uses: './.github/pintos-results'
         with:
