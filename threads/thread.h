@@ -143,11 +143,6 @@ int thread_get_recent_cpu (void);
 int thread_get_load_avg (void);
 
 
-
-void timer_sleep(int64_t);
-static void timer_interrupt(struct intr_frame *args UNUSED);
-
-
 /*-------------------------------------Nuestras funciones--------------------------------------------*/
 void insert_in_list_wait(int64_t ticks);
 void remove_thread_sleep(int64_t ticks);
@@ -155,6 +150,5 @@ void remove_thread_sleep(int64_t ticks);
 bool compare_priority(const struct list_elem *a, const struct list_elem *b, void *aux);
 
 /*-------------------------------------Fin Nuestras funciones----------------------------------------*/
-
 
 #endif /* threads/thread.h */
