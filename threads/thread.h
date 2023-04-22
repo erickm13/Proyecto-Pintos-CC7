@@ -93,8 +93,12 @@ struct thread
     /* Shared between thread.c and synch.c. */
     struct list_elem elem;              /* List element. */
 
-
+    /* --------------------------------------------------------------------------------------------------------------*/
     uint64_t time_for_sleep; /*Time that the thread are sleep*/
+
+    struct list donors;
+
+    /*---------------------------------------------------------------------------------------------------------------*/
 
 
 #ifdef USERPROG
